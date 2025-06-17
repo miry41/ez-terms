@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BookOpen, Brain, Target, Users, ArrowRight, FileText, Lightbulb, TrendingUp, Check, Star, Zap, Clock, Shield, Globe, Award, Sparkles, ChevronRight, Play, Download, BarChart3 } from 'lucide-react';
+import { BookOpen, Brain, Target, Users, ArrowRight, FileText, Lightbulb, TrendingUp, Check, Star, Zap, Clock, Shield, Globe, Award, Sparkles, ChevronRight, Play, Download, BarChart3, Upload } from 'lucide-react';
 
 export default function LandingPage() {
   const features = [
