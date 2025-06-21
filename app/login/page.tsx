@@ -19,7 +19,7 @@ export default function LoginPage() {
     // Simulate login process
     setTimeout(() => {
       setIsLoading(false);
-      router.push('/dashboard');
+      router.push('/app');
     }, 1000);
   };
 
