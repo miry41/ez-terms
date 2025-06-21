@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { 
-  BookOpen, 
-  Target, 
-  Brain, 
-  Zap, 
-  Play, 
+import { useState } from "react";
+import Link from "next/link";
+import {
+  BookOpen,
+  Target,
+  Brain,
+  Zap,
+  Play,
   ChevronLeft,
   Clock,
   Star,
@@ -38,156 +38,268 @@ import {
   X,
   Home,
   Folder,
-  LogOut
-} from 'lucide-react';
+  LogOut,
+} from "lucide-react";
 
 export default function LearnPage() {
-  const [selectedMode, setSelectedMode] = useState('flashcards');
-  const [selectedDocument, setSelectedDocument] = useState('all');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedStatus, setSelectedStatus] = useState('all');
-  const [difficulty, setDifficulty] = useState('mixed');
+  const [selectedMode, setSelectedMode] = useState("flashcards");
+  const [selectedDocument, setSelectedDocument] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [difficulty, setDifficulty] = useState("mixed");
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   // 5段階の学習ステータス定義
   const learningStatuses = [
-    { id: 'new', label: '未学習', icon: Circle, color: 'text-gray-500', bg: 'bg-gray-100', description: '新しい単語' },
-    { id: 'learning', label: '学習中', icon: AlertCircle, color: 'text-blue-500', bg: 'bg-blue-100', description: '学習開始済み' },
-    { id: 'reviewing', label: '復習中', icon: MinusCircle, color: 'text-yellow-500', bg: 'bg-yellow-100', description: '復習が必要' },
-    { id: 'familiar', label: '習得済み', icon: CheckCircle, color: 'text-green-500', bg: 'bg-green-100', description: 'ある程度習得' },
-    { id: 'mastered', label: '完全習得', icon: Trophy, color: 'text-purple-500', bg: 'bg-purple-100', description: '完全にマスター' }
+    {
+      id: "new",
+      label: "未学習",
+      icon: Circle,
+      color: "text-gray-500",
+      bg: "bg-gray-100",
+      description: "新しい単語",
+    },
+    {
+      id: "learning",
+      label: "学習中",
+      icon: AlertCircle,
+      color: "text-blue-500",
+      bg: "bg-blue-100",
+      description: "学習開始済み",
+    },
+    {
+      id: "reviewing",
+      label: "復習中",
+      icon: MinusCircle,
+      color: "text-yellow-500",
+      bg: "bg-yellow-100",
+      description: "復習が必要",
+    },
+    {
+      id: "familiar",
+      label: "習得済み",
+      icon: CheckCircle,
+      color: "text-green-500",
+      bg: "bg-green-100",
+      description: "ある程度習得",
+    },
+    {
+      id: "mastered",
+      label: "完全習得",
+      icon: Trophy,
+      color: "text-purple-500",
+      bg: "bg-purple-100",
+      description: "完全にマスター",
+    },
   ];
 
   const learningModes = [
     {
-      id: 'flashcards',
-      title: 'フラッシュカード',
-      description: '間隔反復学習でしっかり記憶',
+      id: "flashcards",
+      title: "フラッシュカード",
+      description: "間隔反復学習でしっかり記憶",
       icon: BookOpen,
-      color: 'bg-green-500',
-      gradient: 'gradient-primary',
-      stats: { words: 45, time: '15分', accuracy: '87%' }
+      color: "bg-green-500",
+      gradient: "gradient-primary",
+      stats: { words: 45, time: "15分", accuracy: "87%" },
     },
     {
-      id: 'quiz',
-      title: 'クイズモード',
-      description: '選択問題で知識をテスト',
+      id: "quiz",
+      title: "クイズモード",
+      description: "選択問題で知識をテスト",
       icon: Target,
-      color: 'bg-blue-500',
-      gradient: 'gradient-secondary',
-      stats: { words: 20, time: '10分', accuracy: '92%' }
+      color: "bg-blue-500",
+      gradient: "gradient-secondary",
+      stats: { words: 20, time: "10分", accuracy: "92%" },
     },
     {
-      id: 'writing',
-      title: 'ライティング練習',
-      description: 'スペルと文脈での使用を練習',
+      id: "writing",
+      title: "ライティング練習",
+      description: "スペルと文脈での使用を練習",
       icon: PenTool,
-      color: 'bg-purple-500',
-      gradient: 'gradient-accent',
-      stats: { words: 15, time: '20分', accuracy: '78%' }
+      color: "bg-purple-500",
+      gradient: "gradient-accent",
+      stats: { words: 15, time: "20分", accuracy: "78%" },
     },
     {
-      id: 'listening',
-      title: '発音練習',
-      description: '正しい発音とリスニングを学習',
+      id: "listening",
+      title: "発音練習",
+      description: "正しい発音とリスニングを学習",
       icon: Headphones,
-      color: 'bg-orange-500',
-      gradient: 'bg-gradient-to-r from-orange-500 to-red-500',
-      stats: { words: 30, time: '12分', accuracy: '85%' }
+      color: "bg-orange-500",
+      gradient: "bg-gradient-to-r from-orange-500 to-red-500",
+      stats: { words: 30, time: "12分", accuracy: "85%" },
     },
     {
-      id: 'games',
-      title: 'ワードゲーム',
-      description: '楽しいゲームで学習を強化',
+      id: "games",
+      title: "ワードゲーム",
+      description: "楽しいゲームで学習を強化",
       icon: Gamepad2,
-      color: 'bg-pink-500',
-      gradient: 'bg-gradient-to-r from-pink-500 to-purple-500',
-      stats: { words: 25, time: '18分', accuracy: '90%' }
+      color: "bg-pink-500",
+      gradient: "bg-gradient-to-r from-pink-500 to-purple-500",
+      stats: { words: 25, time: "18分", accuracy: "90%" },
     },
     {
-      id: 'review',
-      title: 'スマート復習',
-      description: 'AI搭載の苦手単語復習',
+      id: "review",
+      title: "スマート復習",
+      description: "AI搭載の苦手単語復習",
       icon: Brain,
-      color: 'bg-indigo-500',
-      gradient: 'bg-gradient-to-r from-indigo-500 to-blue-500',
-      stats: { words: 12, time: '8分', accuracy: '94%' }
-    }
+      color: "bg-indigo-500",
+      gradient: "bg-gradient-to-r from-indigo-500 to-blue-500",
+      stats: { words: 12, time: "8分", accuracy: "94%" },
+    },
   ];
 
   const documents = [
-    { id: 'all', name: '全てのドキュメント', words: 247, newWords: 45, learningWords: 89, reviewingWords: 67, familiarWords: 32, masteredWords: 14 },
-    { id: 'paper1', name: '機械学習研究論文', words: 89, newWords: 12, learningWords: 34, reviewingWords: 25, familiarWords: 15, masteredWords: 3 },
-    { id: 'paper2', name: '量子コンピューティング記事', words: 67, newWords: 8, learningWords: 23, reviewingWords: 20, familiarWords: 12, masteredWords: 4 },
-    { id: 'paper3', name: 'バイオテクノロジー論文', words: 91, newWords: 25, learningWords: 32, reviewingWords: 22, familiarWords: 5, masteredWords: 7 }
+    {
+      id: "all",
+      name: "全てのドキュメント",
+      words: 247,
+      newWords: 45,
+      learningWords: 89,
+      reviewingWords: 67,
+      familiarWords: 32,
+      masteredWords: 14,
+    },
+    {
+      id: "paper1",
+      name: "機械学習研究論文",
+      words: 89,
+      newWords: 12,
+      learningWords: 34,
+      reviewingWords: 25,
+      familiarWords: 15,
+      masteredWords: 3,
+    },
+    {
+      id: "paper2",
+      name: "量子コンピューティング記事",
+      words: 67,
+      newWords: 8,
+      learningWords: 23,
+      reviewingWords: 20,
+      familiarWords: 12,
+      masteredWords: 4,
+    },
+    {
+      id: "paper3",
+      name: "バイオテクノロジー論文",
+      words: 91,
+      newWords: 25,
+      learningWords: 32,
+      reviewingWords: 22,
+      familiarWords: 5,
+      masteredWords: 7,
+    },
   ];
 
   const categories = [
-    { id: 'all', name: '全てのカテゴリ', words: 247, newWords: 45, learningWords: 89, reviewingWords: 67, familiarWords: 32, masteredWords: 14 },
-    { id: 'science', name: '科学', words: 89, newWords: 15, learningWords: 32, reviewingWords: 25, familiarWords: 12, masteredWords: 5 },
-    { id: 'technology', name: 'テクノロジー', words: 67, newWords: 12, learningWords: 28, reviewingWords: 18, familiarWords: 7, masteredWords: 2 },
-    { id: 'medicine', name: '医学', words: 91, newWords: 18, learningWords: 29, reviewingWords: 24, familiarWords: 13, masteredWords: 7 }
+    {
+      id: "all",
+      name: "全てのカテゴリ",
+      words: 247,
+      newWords: 45,
+      learningWords: 89,
+      reviewingWords: 67,
+      familiarWords: 32,
+      masteredWords: 14,
+    },
+    {
+      id: "science",
+      name: "科学",
+      words: 89,
+      newWords: 15,
+      learningWords: 32,
+      reviewingWords: 25,
+      familiarWords: 12,
+      masteredWords: 5,
+    },
+    {
+      id: "technology",
+      name: "テクノロジー",
+      words: 67,
+      newWords: 12,
+      learningWords: 28,
+      reviewingWords: 18,
+      familiarWords: 7,
+      masteredWords: 2,
+    },
+    {
+      id: "medicine",
+      name: "医学",
+      words: 91,
+      newWords: 18,
+      learningWords: 29,
+      reviewingWords: 24,
+      familiarWords: 13,
+      masteredWords: 7,
+    },
   ];
 
   const recentSessions = [
     {
       id: 1,
-      mode: 'フラッシュカード',
+      mode: "フラッシュカード",
       words: 15,
       accuracy: 87,
-      time: '12分',
-      date: '2時間前',
+      time: "12分",
+      date: "2時間前",
       icon: BookOpen,
-      color: 'text-green-600'
+      color: "text-green-600",
     },
     {
       id: 2,
-      mode: 'クイズモード',
+      mode: "クイズモード",
       words: 20,
       accuracy: 92,
-      time: '8分',
-      date: '1日前',
+      time: "8分",
+      date: "1日前",
       icon: Target,
-      color: 'text-blue-600'
+      color: "text-blue-600",
     },
     {
       id: 3,
-      mode: 'ワードゲーム',
+      mode: "ワードゲーム",
       words: 25,
       accuracy: 90,
-      time: '15分',
-      date: '2日前',
+      time: "15分",
+      date: "2日前",
       icon: Gamepad2,
-      color: 'text-pink-600'
-    }
+      color: "text-pink-600",
+    },
   ];
 
   // 選択された条件に基づいて利用可能な単語数を計算
   const getAvailableWords = () => {
-    const selectedDoc = documents.find(doc => doc.id === selectedDocument) || documents[0];
-    const selectedCat = categories.find(cat => cat.id === selectedCategory) || categories[0];
-    
-    if (selectedStatus === 'all') {
+    const selectedDoc =
+      documents.find((doc) => doc.id === selectedDocument) || documents[0];
+    const selectedCat =
+      categories.find((cat) => cat.id === selectedCategory) || categories[0];
+
+    if (selectedStatus === "all") {
       return Math.min(selectedDoc.words, selectedCat.words);
     }
-    
+
     const statusKey = `${selectedStatus}Words` as keyof typeof selectedDoc;
-    return Math.min(selectedDoc[statusKey] as number, selectedCat[statusKey] as number);
+    return Math.min(
+      selectedDoc[statusKey] as number,
+      selectedCat[statusKey] as number
+    );
   };
 
   const getStatusIcon = (statusId: string) => {
-    const status = learningStatuses.find(s => s.id === statusId);
+    const status = learningStatuses.find((s) => s.id === statusId);
     return status ? status.icon : Circle;
   };
 
   const getStatusColor = (statusId: string) => {
-    const status = learningStatuses.find(s => s.id === statusId);
-    return status ? status.color : 'text-gray-500';
+    const status = learningStatuses.find((s) => s.id === statusId);
+    return status ? status.color : "text-gray-500";
   };
 
   const getStatusBg = (statusId: string) => {
-    const status = learningStatuses.find(s => s.id === statusId);
-    return status ? status.bg : 'bg-gray-100';
+    const status = learningStatuses.find((s) => s.id === statusId);
+    return status ? status.bg : "bg-gray-100";
   };
 
   return (
@@ -199,13 +311,17 @@ export default function LearnPage() {
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <h1 className="text-2xl font-bold text-gray-900">学習センター</h1>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  学習センター
+                </h1>
               </div>
               <div className="flex items-center space-x-3">
-                <button 
+                <button
                   onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
                   className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
-                    showAdvancedFilters ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-200 hover:bg-gray-50'
+                    showAdvancedFilters
+                      ? "border-green-500 bg-green-50 text-green-700"
+                      : "border-gray-200 hover:bg-gray-50"
                   }`}
                 >
                   <Filter className="w-4 h-4" />
@@ -241,7 +357,9 @@ export default function LearnPage() {
             </div>
             <div className="elegant-card p-6 text-center gentle-hover">
               <Award className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">{getAvailableWords()}</div>
+              <div className="text-2xl font-bold text-gray-900">
+                {getAvailableWords()}
+              </div>
               <div className="text-sm text-gray-600">利用可能単語数</div>
             </div>
           </div>
@@ -250,7 +368,9 @@ export default function LearnPage() {
             {/* Learning Modes */}
             <div className="lg:col-span-2 space-y-8">
               <div className="elegant-card p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-6">学習モードを選択</h2>
+                <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                  学習モードを選択
+                </h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   {learningModes.map((mode) => {
                     const IconComponent = mode.icon;
@@ -260,20 +380,26 @@ export default function LearnPage() {
                         onClick={() => setSelectedMode(mode.id)}
                         className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 hover-lift ${
                           selectedMode === mode.id
-                            ? 'border-green-500 bg-green-50 gentle-glow'
-                            : 'border-gray-200 hover:border-green-300'
+                            ? "border-green-500 bg-green-50 gentle-glow"
+                            : "border-gray-200 hover:border-green-300"
                         }`}
                       >
                         <div className="flex items-start justify-between mb-4">
-                          <div className={`w-12 h-12 ${mode.gradient} rounded-xl flex items-center justify-center mb-4`}>
+                          <div
+                            className={`w-12 h-12 ${mode.gradient} rounded-xl flex items-center justify-center mb-4`}
+                          >
                             <IconComponent className="w-6 h-6 text-white" />
                           </div>
                           {selectedMode === mode.id && (
                             <CheckCircle className="w-6 h-6 text-green-600" />
                           )}
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{mode.title}</h3>
-                        <p className="text-gray-600 text-sm mb-4">{mode.description}</p>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                          {mode.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-4">
+                          {mode.description}
+                        </p>
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <span>{mode.stats.words}単語</span>
                           <span>{mode.stats.time}</span>
@@ -287,8 +413,10 @@ export default function LearnPage() {
 
               {/* Study Options */}
               <div className="elegant-card p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-6">学習設定</h3>
-                
+                <h3 className="text-lg font-semibold text-gray-900 mb-6">
+                  学習設定
+                </h3>
+
                 {/* Basic Filters */}
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
@@ -300,7 +428,7 @@ export default function LearnPage() {
                       onChange={(e) => setSelectedDocument(e.target.value)}
                       className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
-                      {documents.map(doc => (
+                      {documents.map((doc) => (
                         <option key={doc.id} value={doc.id}>
                           {doc.name} ({doc.words}単語)
                         </option>
@@ -317,7 +445,7 @@ export default function LearnPage() {
                       onChange={(e) => setSelectedCategory(e.target.value)}
                       className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
-                      {categories.map(category => (
+                      {categories.map((category) => (
                         <option key={category.id} value={category.id}>
                           {category.name} ({category.words}単語)
                         </option>
@@ -333,37 +461,52 @@ export default function LearnPage() {
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <button
-                      onClick={() => setSelectedStatus('all')}
+                      onClick={() => setSelectedStatus("all")}
                       className={`p-3 rounded-lg border-2 text-left transition-colors ${
-                        selectedStatus === 'all' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300'
+                        selectedStatus === "all"
+                          ? "border-green-500 bg-green-50"
+                          : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
                       <div className="flex items-center space-x-2 mb-1">
                         <BarChart3 className="w-4 h-4 text-gray-600" />
-                        <span className="font-medium text-sm">全てのステータス</span>
+                        <span className="font-medium text-sm">
+                          全てのステータス
+                        </span>
                       </div>
                       <p className="text-xs text-gray-500">全ての学習段階</p>
                     </button>
-                    
+
                     {learningStatuses.map((status) => {
                       const IconComponent = status.icon;
-                      const selectedDoc = documents.find(doc => doc.id === selectedDocument) || documents[0];
-                      const statusKey = `${status.id}Words` as keyof typeof selectedDoc;
+                      const selectedDoc =
+                        documents.find((doc) => doc.id === selectedDocument) ||
+                        documents[0];
+                      const statusKey =
+                        `${status.id}Words` as keyof typeof selectedDoc;
                       const wordCount = selectedDoc[statusKey] as number;
-                      
+
                       return (
                         <button
                           key={status.id}
                           onClick={() => setSelectedStatus(status.id)}
                           className={`p-3 rounded-lg border-2 text-left transition-colors ${
-                            selectedStatus === status.id ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300'
+                            selectedStatus === status.id
+                              ? "border-green-500 bg-green-50"
+                              : "border-gray-200 hover:border-gray-300"
                           }`}
                         >
                           <div className="flex items-center space-x-2 mb-1">
-                            <IconComponent className={`w-4 h-4 ${status.color}`} />
-                            <span className="font-medium text-sm">{status.label}</span>
+                            <IconComponent
+                              className={`w-4 h-4 ${status.color}`}
+                            />
+                            <span className="font-medium text-sm">
+                              {status.label}
+                            </span>
                           </div>
-                          <p className="text-xs text-gray-500">{status.description} ({wordCount})</p>
+                          <p className="text-xs text-gray-500">
+                            {status.description} ({wordCount})
+                          </p>
                         </button>
                       );
                     })}
@@ -434,19 +577,33 @@ export default function LearnPage() {
 
                 {/* Status Summary */}
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 mb-6">
-                  <h4 className="font-medium text-gray-900 mb-3">選択した単語セットの概要</h4>
+                  <h4 className="font-medium text-gray-900 mb-3">
+                    選択した単語セットの概要
+                  </h4>
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
                     {learningStatuses.map((status) => {
-                      const selectedDoc = documents.find(doc => doc.id === selectedDocument) || documents[0];
-                      const statusKey = `${status.id}Words` as keyof typeof selectedDoc;
+                      const selectedDoc =
+                        documents.find((doc) => doc.id === selectedDocument) ||
+                        documents[0];
+                      const statusKey =
+                        `${status.id}Words` as keyof typeof selectedDoc;
                       const wordCount = selectedDoc[statusKey] as number;
                       const IconComponent = status.icon;
-                      
+
                       return (
-                        <div key={status.id} className="bg-white rounded-lg p-3">
-                          <IconComponent className={`w-5 h-5 ${status.color} mx-auto mb-1`} />
-                          <div className="text-lg font-bold text-gray-900">{wordCount}</div>
-                          <div className="text-xs text-gray-600">{status.label}</div>
+                        <div
+                          key={status.id}
+                          className="bg-white rounded-lg p-3"
+                        >
+                          <IconComponent
+                            className={`w-5 h-5 ${status.color} mx-auto mb-1`}
+                          />
+                          <div className="text-lg font-bold text-gray-900">
+                            {wordCount}
+                          </div>
+                          <div className="text-xs text-gray-600">
+                            {status.label}
+                          </div>
                         </div>
                       );
                     })}
@@ -454,14 +611,19 @@ export default function LearnPage() {
                 </div>
 
                 <div className="flex justify-center">
-                  <button className="flex items-center space-x-3 px-8 py-4 gradient-primary text-white rounded-xl text-lg font-semibold hover:opacity-90 transition-opacity hover-lift">
-                    <Play className="w-6 h-6" />
-                    <span>学習セッションを開始</span>
-                    <span className="bg-white/20 px-2 py-1 rounded-lg text-sm">
-                      {getAvailableWords()}単語
-                    </span>
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
+                  <Link href="/session">
+                    <div
+                      role="button"
+                      className="flex items-center space-x-3 px-8 py-4 gradient-primary text-white rounded-xl text-lg font-semibold hover:opacity-90 transition-opacity hover-lift"
+                    >
+                      <Play className="w-6 h-6" />
+                      <span>学習セッションを開始</span>
+                      <span className="bg-white/20 px-2 py-1 rounded-lg text-sm">
+                        {getAvailableWords()}単語
+                      </span>
+                      <ArrowRight className="w-5 h-5" />
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -470,27 +632,42 @@ export default function LearnPage() {
             <div className="space-y-6">
               {/* Learning Status Overview */}
               <div className="elegant-card p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">学習進捗</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  学習進捗
+                </h3>
                 <div className="space-y-4">
                   {learningStatuses.map((status) => {
-                    const selectedDoc = documents.find(doc => doc.id === selectedDocument) || documents[0];
-                    const statusKey = `${status.id}Words` as keyof typeof selectedDoc;
+                    const selectedDoc =
+                      documents.find((doc) => doc.id === selectedDocument) ||
+                      documents[0];
+                    const statusKey =
+                      `${status.id}Words` as keyof typeof selectedDoc;
                     const wordCount = selectedDoc[statusKey] as number;
-                    const percentage = Math.round((wordCount / selectedDoc.words) * 100);
+                    const percentage = Math.round(
+                      (wordCount / selectedDoc.words) * 100
+                    );
                     const IconComponent = status.icon;
-                    
+
                     return (
                       <div key={status.id} className="space-y-2">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
-                            <IconComponent className={`w-4 h-4 ${status.color}`} />
-                            <span className="text-sm font-medium text-gray-900">{status.label}</span>
+                            <IconComponent
+                              className={`w-4 h-4 ${status.color}`}
+                            />
+                            <span className="text-sm font-medium text-gray-900">
+                              {status.label}
+                            </span>
                           </div>
-                          <div className="text-sm text-gray-600">{wordCount} ({percentage}%)</div>
+                          <div className="text-sm text-gray-600">
+                            {wordCount} ({percentage}%)
+                          </div>
                         </div>
                         <div className="bg-gray-200 rounded-full h-2">
-                          <div 
-                            className={`h-2 rounded-full transition-all duration-500 ${status.bg.replace('bg-', 'bg-').replace('-100', '-500')}`}
+                          <div
+                            className={`h-2 rounded-full transition-all duration-500 ${status.bg
+                              .replace("bg-", "bg-")
+                              .replace("-100", "-500")}`}
                             style={{ width: `${percentage}%` }}
                           ></div>
                         </div>
@@ -502,19 +679,30 @@ export default function LearnPage() {
 
               {/* Recent Sessions */}
               <div className="elegant-card p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">最近のセッション</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  最近のセッション
+                </h3>
                 <div className="space-y-4">
                   {recentSessions.map((session) => {
                     const IconComponent = session.icon;
                     return (
-                      <div key={session.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <div
+                        key={session.id}
+                        className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
+                      >
                         <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                          <IconComponent className={`w-5 h-5 ${session.color}`} />
+                          <IconComponent
+                            className={`w-5 h-5 ${session.color}`}
+                          />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center justify-between">
-                            <p className="font-medium text-gray-900 text-sm">{session.mode}</p>
-                            <span className="text-xs text-gray-500">{session.date}</span>
+                            <p className="font-medium text-gray-900 text-sm">
+                              {session.mode}
+                            </p>
+                            <span className="text-xs text-gray-500">
+                              {session.date}
+                            </span>
                           </div>
                           <div className="flex items-center space-x-3 text-xs text-gray-600 mt-1">
                             <span>{session.words}単語</span>
@@ -532,10 +720,15 @@ export default function LearnPage() {
 
               {/* Daily Goal */}
               <div className="elegant-card p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">今日の目標</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  今日の目標
+                </h3>
                 <div className="text-center">
                   <div className="relative w-24 h-24 mx-auto mb-4">
-                    <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+                    <svg
+                      className="w-24 h-24 transform -rotate-90"
+                      viewBox="0 0 100 100"
+                    >
                       <circle
                         cx="50"
                         cy="50"
@@ -559,17 +752,23 @@ export default function LearnPage() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-xl font-bold text-gray-900">75%</span>
+                      <span className="text-xl font-bold text-gray-900">
+                        75%
+                      </span>
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 mb-2">20単語中15単語</p>
-                  <p className="text-xs text-gray-500">あと5単語で今日の目標達成！</p>
+                  <p className="text-xs text-gray-500">
+                    あと5単語で今日の目標達成！
+                  </p>
                 </div>
               </div>
 
               {/* Quick Actions */}
               <div className="elegant-card p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">クイックアクション</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  クイックアクション
+                </h3>
                 <div className="space-y-3">
                   <button className="w-full flex items-center space-x-3 p-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
                     <RotateCcw className="w-4 h-4" />
