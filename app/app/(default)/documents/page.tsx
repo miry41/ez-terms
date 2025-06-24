@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { StatsCard } from "@/components/cards/StatsCard";
+import Header from "@/components/Header";
 import {
   FileText,
   Upload,
@@ -33,7 +35,6 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
-import Header from "@/components/Header";
 
 export default function DocumentsPage() {
   const [viewMode, setViewMode] = useState("grid");
@@ -170,34 +171,35 @@ export default function DocumentsPage() {
         <div className="flex-1 p-6 overflow-y-auto">
           {/* Stats Overview */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <FileText className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">
-                {documents.length}
-              </div>
-              <div className="text-sm text-gray-600">総ドキュメント数</div>
-            </div>
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <BookOpen className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">
-                {documents.reduce((acc, doc) => acc + doc.wordsExtracted, 0)}
-              </div>
-              <div className="text-sm text-gray-600">抽出単語数</div>
-            </div>
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <Clock className="w-8 h-8 text-yellow-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">
-                {documents.filter((doc) => doc.status === "processing").length}
-              </div>
-              <div className="text-sm text-gray-600">処理中</div>
-            </div>
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <Target className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">
-                {documents.filter((doc) => doc.status === "processed").length}
-              </div>
-              <div className="text-sm text-gray-600">完了</div>
-            </div>
+            <StatsCard
+              icon={<FileText className="w-8 h-8 text-blue-600 mx-auto mb-2" />}
+              count={documents.length}
+              label={"総ドキュメント数"}
+            />
+            <StatsCard
+              icon={
+                <BookOpen className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              }
+              count={documents.reduce(
+                (acc, doc) => acc + doc.wordsExtracted,
+                0
+              )}
+              label={"抽出単語数"}
+            />
+            <StatsCard
+              icon={<Clock className="w-8 h-8 text-yellow-600 mx-auto mb-2" />}
+              count={
+                documents.filter((doc) => doc.status === "processing").length
+              }
+              label={"処理中"}
+            />
+            <StatsCard
+              icon={<Target className="w-8 h-8 text-purple-600 mx-auto mb-2" />}
+              count={
+                documents.filter((doc) => doc.status === "processed").length
+              }
+              label={"完了"}
+            />
           </div>
 
           {/* Filters and Search */}

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Header from "@/components/Header";
+import { StatsCard } from "@/components/cards/StatsCard";
 import {
   BookOpen,
   Target,
@@ -40,7 +42,6 @@ import {
   Folder,
   LogOut,
 } from "lucide-react";
-import Header from "@/components/Header";
 
 export default function LearnPage() {
   const [selectedMode, setSelectedMode] = useState("flashcards");
@@ -337,28 +338,26 @@ export default function LearnPage() {
         <div className="flex-1 p-6 overflow-y-auto">
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <Zap className="w-8 h-8 text-orange-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">12</div>
-              <div className="text-sm text-gray-600">連続日数</div>
-            </div>
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">2.5時間</div>
-              <div className="text-sm text-gray-600">今週の学習時間</div>
-            </div>
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <Star className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">89%</div>
-              <div className="text-sm text-gray-600">平均スコア</div>
-            </div>
-            <div className="elegant-card p-6 text-center gentle-hover">
-              <Award className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">
-                {getAvailableWords()}
-              </div>
-              <div className="text-sm text-gray-600">利用可能単語数</div>
-            </div>
+            <StatsCard
+              icon={<Zap className="w-8 h-8 text-orange-500 mx-auto mb-2" />}
+              count={22}
+              label={"連続日数"}
+            />
+            <StatsCard
+              icon={<Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />}
+              count={"2.5時間"}
+              label={"今週の学習時間"}
+            />
+            <StatsCard
+              icon={<Star className="w-8 h-8 text-yellow-500 mx-auto mb-2" />}
+              count={"89%"}
+              label={"平均スコア"}
+            />
+            <StatsCard
+              icon={<Award className="w-8 h-8 text-purple-600 mx-auto mb-2" />}
+              count={getAvailableWords()}
+              label={"利用可能単語数"}
+            />
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
