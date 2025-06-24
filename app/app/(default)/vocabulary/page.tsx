@@ -5,9 +5,20 @@ import Link from "next/link";
 import * as Icon from "@/lib/icons";
 import { StatsCard } from "@/components/cards/StatsCard";
 import SearchPanel from "@/components/SearchPanel";
-import { vocabularyWords } from "@/components/ExampleVoc";
 import VocabularyCard from "@/components/cards/VocabularyCard";
 import Header from "@/components/Header";
+import {
+  mockVocabularyWords,
+  mockCategories,
+  mockDifficulties,
+} from "@/data/mockData";
+import {
+  getDifficultyColor,
+  getDifficultyText,
+  getCategoryText,
+  getMasteryColor,
+  calculateAverageMastery,
+} from "@/utils/helpers";
 
 export default function VocabularyPage() {
   const [viewMode, setViewMode] = useState("grid");
@@ -42,66 +53,7 @@ export default function VocabularyPage() {
     </Link>,
   ];
 
-  const categories = [
-    "all",
-    "research",
-    "academic",
-    "science",
-    "technology",
-    "medicine",
-  ];
-  const difficulties = ["all", "beginner", "intermediate", "advanced"];
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "beginner":
-        return "bg-green-100 text-green-800";
-      case "intermediate":
-        return "bg-yellow-100 text-yellow-800";
-      case "advanced":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getDifficultyText = (difficulty: string) => {
-    switch (difficulty) {
-      case "beginner":
-        return "初級";
-      case "intermediate":
-        return "中級";
-      case "advanced":
-        return "上級";
-      default:
-        return "不明";
-    }
-  };
-
-  const getCategoryText = (category: string) => {
-    switch (category) {
-      case "research":
-        return "研究";
-      case "academic":
-        return "学術";
-      case "science":
-        return "科学";
-      case "technology":
-        return "テクノロジー";
-      case "medicine":
-        return "医学";
-      default:
-        return category;
-    }
-  };
-
-  const getMasteryColor = (mastery: number) => {
-    if (mastery >= 80) return "text-green-600";
-    if (mastery >= 50) return "text-yellow-600";
-    return "text-red-600";
-  };
-
-  const filteredWords = vocabularyWords.filter((word) => {
+  const filteredWords = mockVocabularyWords.filter((word) => {
     const matchesSearch =
       word.word.toLowerCase().includes(searchTerm.toLowerCase()) ||
       word.definition.toLowerCase().includes(searchTerm.toLowerCase());
@@ -128,15 +80,15 @@ export default function VocabularyPage() {
               icon={
                 <Icon.BookOpen className="w-8 h-8 text-green-600 mx-auto mb-2" />
               }
-              count={vocabularyWords.length}
-              label={"総単語数"}
+              count={mockVocabularyWords.length}
+              label="総単語数"
             />
             <StatsCard
               icon={
                 <Icon.Star className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
               }
-              count={vocabularyWords.filter((w) => w.mastery >= 80).length}
-              label={"習得済み"}
+              count={mockVocabularyWords.filter((w) => w.mastery >= 80).length}
+              label="習得済み"
             />
 
             <StatsCard
@@ -144,20 +96,18 @@ export default function VocabularyPage() {
                 <Icon.Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
               }
               count={
-                vocabularyWords.filter((w) => w.mastery > 0 && w.mastery < 80)
-                  .length
+                mockVocabularyWords.filter(
+                  (w) => w.mastery > 0 && w.mastery < 80
+                ).length
               }
-              label={"学習中"}
+              label="学習中"
             />
             <StatsCard
               icon={
                 <Icon.Target className="w-8 h-8 text-purple-600 mx-auto mb-2" />
               }
-              count={`${Math.round(
-                vocabularyWords.reduce((acc, w) => acc + w.mastery, 0) /
-                  vocabularyWords.length
-              )}%`}
-              label={"平均習得率"}
+              count={`${calculateAverageMastery(mockVocabularyWords)}%`}
+              label="平均習得率"
             />
           </div>
 
@@ -174,8 +124,8 @@ export default function VocabularyPage() {
               setSortBy={setSortBy}
               viewMode={viewMode}
               setViewMode={setViewMode}
-              categories={categories}
-              difficulties={difficulties}
+              categories={mockCategories}
+              difficulties={mockDifficulties}
               getCategoryText={getCategoryText}
               getDifficultyText={getDifficultyText}
             />
@@ -200,18 +150,6 @@ export default function VocabularyPage() {
               />
             ))}
           </div>
-
-          {filteredWords.length === 0 && (
-            <div className="text-center py-12">
-              <Icon.BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                単語が見つかりません
-              </h3>
-              <p className="text-gray-600">
-                検索条件やフィルターを調整してみてください。
-              </p>
-            </div>
-          )}
         </div>
       </div>
     </div>
