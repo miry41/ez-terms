@@ -7,6 +7,7 @@ import { StatsCard } from "@/components/cards/StatsCard";
 import SearchPanel from "@/components/SearchPanel";
 import { vocabularyWords } from "@/components/ExampleVoc";
 import VocabularyCard from "@/components/cards/VocabularyCard";
+import Header from "@/components/Header";
 
 export default function VocabularyPage() {
   const [viewMode, setViewMode] = useState("grid");
@@ -14,6 +15,32 @@ export default function VocabularyPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
   const [sortBy, setSortBy] = useState("recent");
+
+  const headerAction = [
+    <div className="relative inline-block" key="export-dev">
+      {/* オーバーレイバッジ */}
+      <div className="absolute -top-2 -right-2 z-10 bg-yellow-500 text-white text-sm font-bold px-2 py-0.5 rounded-full shadow-md border">
+        開発中
+      </div>
+
+      {/* 半透明ボタン */}
+      <button
+        className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg bg-white opacity-50 cursor-not-allowed"
+        disabled
+      >
+        <Icons.Download className="w-4 h-4" />
+        <span>エクスポート</span>
+      </button>
+    </div>,
+    <Link
+      className="flex items-center space-x-2 px-4 py-2 gradient-primary text-white rounded-lg hover:opacity-90 transition-opacity"
+      key="add"
+      href="./extract"
+    >
+      <Icons.Plus className="w-4 h-4" />
+      <span>単語を追加</span>
+    </Link>,
+  ];
 
   const categories = [
     "all",
@@ -91,29 +118,7 @@ export default function VocabularyPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-white/80 backdrop-blur-sm border-b border-green-100">
-          <div className="px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-2xl font-bold text-gray-900">マイ単語帳</h1>
-              </div>
-              <div className="flex items-center space-x-3">
-                <button className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Icons.Upload className="w-4 h-4" />
-                  <span>インポート</span>
-                </button>
-                <button className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Icons.Download className="w-4 h-4" />
-                  <span>エクスポート</span>
-                </button>
-                <button className="flex items-center space-x-2 px-4 py-2 gradient-primary text-white rounded-lg hover:opacity-90 transition-opacity">
-                  <Icons.Plus className="w-4 h-4" />
-                  <span>単語を追加</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Header headerText="マイ単語帳" actions={headerAction} />
 
         {/* Content */}
         <div className="flex-1 p-6 overflow-y-auto">

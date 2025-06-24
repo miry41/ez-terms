@@ -40,6 +40,7 @@ import {
   Folder,
   LogOut,
 } from "lucide-react";
+import Header from "@/components/Header";
 
 export default function LearnPage() {
   const [selectedMode, setSelectedMode] = useState("flashcards");
@@ -287,6 +288,29 @@ export default function LearnPage() {
     );
   };
 
+  const headerAction = [
+    <button
+      onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+      className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
+        showAdvancedFilters
+          ? "border-green-500 bg-green-50 text-green-700"
+          : "border-gray-200 hover:bg-gray-50"
+      }`}
+      key="filters"
+    >
+      <Filter className="w-4 h-4" />
+      <span>詳細フィルター</span>
+    </button>,
+    <Link
+      className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+      key="settings"
+      href="./settings"
+    >
+      <Settings className="w-4 h-4" />
+      <span>設定</span>
+    </Link>,
+  ];
+
   const getStatusIcon = (statusId: string) => {
     const status = learningStatuses.find((s) => s.id === statusId);
     return status ? status.icon : Circle;
@@ -307,34 +331,7 @@ export default function LearnPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-white/80 backdrop-blur-sm border-b border-green-100">
-          <div className="px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-2xl font-bold text-gray-900">
-                  学習センター
-                </h1>
-              </div>
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                  className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
-                    showAdvancedFilters
-                      ? "border-green-500 bg-green-50 text-green-700"
-                      : "border-gray-200 hover:bg-gray-50"
-                  }`}
-                >
-                  <Filter className="w-4 h-4" />
-                  <span>詳細フィルター</span>
-                </button>
-                <button className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Settings className="w-4 h-4" />
-                  <span>設定</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Header headerText="学習センター" actions={headerAction} />
 
         {/* Content */}
         <div className="flex-1 p-6 overflow-y-auto">
