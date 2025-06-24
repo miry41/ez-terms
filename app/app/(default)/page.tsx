@@ -11,18 +11,13 @@ export default function DashboardPage() {
   const text = "ダミーテキスト";
 
   const headerAction = [
-    <button
-      key="calendar"
-      className="relative p-2 text-gray-600 hover:text-green-600 transition-colors"
-    >
-      <Icon.Calendar className="w-5 h-5" />
-    </button>,
-    <button
+    <Link
+      href="../"
       key="logout"
       className="text-gray-600 hover:text-red-600 transition-colors"
     >
       <Icon.LogOut className="w-5 h-5" />
-    </button>,
+    </Link>,
   ];
 
   const [extractedWords, setExtractedWords] = useState([
