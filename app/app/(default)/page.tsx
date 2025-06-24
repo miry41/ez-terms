@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import * as Icon from "@/lib/icons";
+import { StatsCard } from "@/components/cards/StatsCard";
 import Header from "@/components/Header";
 
 export default function DashboardPage() {
@@ -168,46 +169,52 @@ export default function DashboardPage() {
             <div className="space-y-8">
               {/* Quick Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="elegant-card p-6 text-center gentle-hover animate-fade-in">
-                  <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <Icon.BookOpen className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">
-                    {extractedWords.length}
-                  </div>
-                  <div className="text-sm text-gray-600">総単語数</div>
+                <div className="animate-fade-in">
+                  <StatsCard
+                    icon={
+                      <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center mx-auto mb-2">
+                        <Icon.BookOpen className="w-6 h-6 text-white" />
+                      </div>
+                    }
+                    count={extractedWords.length}
+                    label={"総単語数"}
+                  />
                 </div>
-
-                <div className="elegant-card p-6 text-center gentle-hover animate-fade-in">
-                  <div className="w-12 h-12 gradient-secondary rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <Icon.Star className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">
-                    {extractedWords.filter((w) => w.mastery >= 80).length}
-                  </div>
-                  <div className="text-sm text-gray-600">習得済み</div>
+                <div className="animate-fade-in">
+                  <StatsCard
+                    icon={
+                      <div className="w-12 h-12 gradient-secondary rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <Icon.Star className="w-6 h-6 text-white" />
+                      </div>
+                    }
+                    count={extractedWords.filter((w) => w.mastery >= 80).length}
+                    label={"習得済み"}
+                  />
                 </div>
-
-                <div className="elegant-card p-6 text-center gentle-hover animate-fade-in">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <Icon.Clock className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">12</div>
-                  <div className="text-sm text-gray-600">連続日数</div>
+                <div className="animate-fade-in">
+                  <StatsCard
+                    icon={
+                      <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <Icon.Clock className="w-6 h-6 text-white" />
+                      </div>
+                    }
+                    count={22}
+                    label={"連続日数"}
+                  />
                 </div>
-
-                <div className="elegant-card p-6 text-center gentle-hover animate-fade-in">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <Icon.Target className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">
-                    {Math.round(
+                <div className="animate-fade-in">
+                  <StatsCard
+                    icon={
+                      <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <Icon.Target className="w-6 h-6 text-white" />
+                      </div>
+                    }
+                    count={`${Math.round(
                       extractedWords.reduce((acc, w) => acc + w.mastery, 0) /
                         extractedWords.length
-                    )}
-                    %
-                  </div>
-                  <div className="text-sm text-gray-600">平均習得率</div>
+                    )}%`}
+                    label={"平均習得率"}
+                  />
                 </div>
               </div>
 

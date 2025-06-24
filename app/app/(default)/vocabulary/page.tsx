@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import * as Icons from "@/lib/icons";
+import * as Icon from "@/lib/icons";
 import { StatsCard } from "@/components/cards/StatsCard";
 import SearchPanel from "@/components/SearchPanel";
 import { vocabularyWords } from "@/components/ExampleVoc";
@@ -28,7 +28,7 @@ export default function VocabularyPage() {
         className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg bg-white opacity-50 cursor-not-allowed"
         disabled
       >
-        <Icons.Download className="w-4 h-4" />
+        <Icon.Download className="w-4 h-4" />
         <span>エクスポート</span>
       </button>
     </div>,
@@ -37,7 +37,7 @@ export default function VocabularyPage() {
       key="add"
       href="./extract"
     >
-      <Icons.Plus className="w-4 h-4" />
+      <Icon.Plus className="w-4 h-4" />
       <span>単語を追加</span>
     </Link>,
   ];
@@ -126,14 +126,14 @@ export default function VocabularyPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             <StatsCard
               icon={
-                <Icons.BookOpen className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                <Icon.BookOpen className="w-8 h-8 text-green-600 mx-auto mb-2" />
               }
               count={vocabularyWords.length}
               label={"総単語数"}
             />
             <StatsCard
               icon={
-                <Icons.Star className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
+                <Icon.Star className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
               }
               count={vocabularyWords.filter((w) => w.mastery >= 80).length}
               label={"習得済み"}
@@ -141,7 +141,7 @@ export default function VocabularyPage() {
 
             <StatsCard
               icon={
-                <Icons.Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <Icon.Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
               }
               count={
                 vocabularyWords.filter((w) => w.mastery > 0 && w.mastery < 80)
@@ -151,7 +151,7 @@ export default function VocabularyPage() {
             />
             <StatsCard
               icon={
-                <Icons.Target className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                <Icon.Target className="w-8 h-8 text-purple-600 mx-auto mb-2" />
               }
               count={`${Math.round(
                 vocabularyWords.reduce((acc, w) => acc + w.mastery, 0) /
@@ -203,7 +203,7 @@ export default function VocabularyPage() {
 
           {filteredWords.length === 0 && (
             <div className="text-center py-12">
-              <Icons.BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <Icon.BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 単語が見つかりません
               </h3>
