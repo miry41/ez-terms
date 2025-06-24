@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 function DashboardSidebar() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   // ローカルストレージからサイドバーの状態を読み込む

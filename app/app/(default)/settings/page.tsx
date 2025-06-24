@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { 
+import { useState } from "react";
+import Link from "next/link";
+import {
   ChevronLeft,
   User,
   Bell,
@@ -32,53 +32,65 @@ import {
   BarChart3,
   Folder,
   Settings,
-  LogOut
-} from 'lucide-react';
+  LogOut,
+} from "lucide-react";
+import Header from "@/components/Header";
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState("profile");
   const [showPassword, setShowPassword] = useState(false);
   const [settings, setSettings] = useState({
     // Profile
-    name: '田中太郎',
-    email: 'tanaka@example.com',
-    bio: '新しい語彙の学習と学術研究に情熱を注いでいます。',
-    
+    name: "田中太郎",
+    email: "tanaka@example.com",
+    bio: "新しい語彙の学習と学術研究に情熱を注いでいます。",
+
     // Notifications
     emailNotifications: true,
     pushNotifications: true,
     weeklyReport: true,
     studyReminders: true,
     achievementAlerts: true,
-    
+
     // Privacy
-    profileVisibility: 'private',
+    profileVisibility: "private",
     dataSharing: false,
     analyticsTracking: true,
-    
+
     // Appearance
-    theme: 'light',
-    language: 'ja',
-    fontSize: 'medium',
-    
+    theme: "light",
+    language: "ja",
+    fontSize: "medium",
+
     // Learning
     dailyGoal: 20,
-    difficultyPreference: 'mixed',
+    difficultyPreference: "mixed",
     autoPlay: true,
-    soundEffects: true
+    soundEffects: true,
   });
 
   const tabs = [
-    { id: 'profile', label: 'プロフィール', icon: User },
-    { id: 'notifications', label: '通知', icon: Bell },
-    { id: 'privacy', label: 'プライバシー・セキュリティ', icon: Shield },
-    { id: 'appearance', label: '外観', icon: Palette },
-    { id: 'learning', label: '学習', icon: Globe },
-    { id: 'data', label: 'データ・ストレージ', icon: Download }
+    { id: "profile", label: "プロフィール", icon: User },
+    { id: "notifications", label: "通知", icon: Bell },
+    { id: "privacy", label: "プライバシー・セキュリティ", icon: Shield },
+    { id: "appearance", label: "外観", icon: Palette },
+    { id: "learning", label: "学習", icon: Globe },
+    { id: "data", label: "データ・ストレージ", icon: Download },
+  ];
+
+  const headerAction = [
+    <button
+      className="flex items-center space-x-2 px-4 py-2 gradient-primary text-white rounded-lg hover:opacity-90 transition-opacity"
+      key="setting"
+    >
+      {/* 保存ロジックはバックエンド実装時に追記 */}
+      <Save className="w-4 h-4" />
+      <span>変更を保存</span>
+    </button>,
   ];
 
   const handleSettingChange = (key: string, value: any) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings((prev) => ({ ...prev, [key]: value }));
   };
 
   return (
@@ -86,19 +98,7 @@ export default function SettingsPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-white/80 backdrop-blur-sm border-b border-green-100">
-          <div className="px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-2xl font-bold text-gray-900">設定</h1>
-              </div>
-              <button className="flex items-center space-x-2 px-4 py-2 gradient-primary text-white rounded-lg hover:opacity-90 transition-opacity">
-                <Save className="w-4 h-4" />
-                <span>変更を保存</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <Header headerText="設定" actions={headerAction} />
 
         {/* Content */}
         <div className="flex-1 p-6 overflow-y-auto">
@@ -115,8 +115,8 @@ export default function SettingsPage() {
                         onClick={() => setActiveTab(tab.id)}
                         className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
                           activeTab === tab.id
-                            ? 'bg-green-100 text-green-700 font-medium'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                            ? "bg-green-100 text-green-700 font-medium"
+                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                         }`}
                       >
                         <IconComponent className="w-5 h-5" />
@@ -132,11 +132,15 @@ export default function SettingsPage() {
             <div className="lg:col-span-3">
               <div className="elegant-card p-8">
                 {/* Profile Tab */}
-                {activeTab === 'profile' && (
+                {activeTab === "profile" && (
                   <div className="space-y-8">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">プロフィール設定</h2>
-                      <p className="text-gray-600">個人情報とアカウント詳細を管理します。</p>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        プロフィール設定
+                      </h2>
+                      <p className="text-gray-600">
+                        個人情報とアカウント詳細を管理します。
+                      </p>
                     </div>
 
                     {/* Profile Picture */}
@@ -150,8 +154,12 @@ export default function SettingsPage() {
                         </button>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">プロフィール画像</h3>
-                        <p className="text-sm text-gray-600 mb-2">新しいプロフィール画像をアップロード</p>
+                        <h3 className="font-semibold text-gray-900">
+                          プロフィール画像
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-2">
+                          新しいプロフィール画像をアップロード
+                        </p>
                         <button className="text-green-600 text-sm font-medium hover:text-green-700">
                           画像を変更
                         </button>
@@ -167,7 +175,9 @@ export default function SettingsPage() {
                         <input
                           type="text"
                           value={settings.name}
-                          onChange={(e) => handleSettingChange('name', e.target.value)}
+                          onChange={(e) =>
+                            handleSettingChange("name", e.target.value)
+                          }
                           className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         />
                       </div>
@@ -181,7 +191,9 @@ export default function SettingsPage() {
                           <input
                             type="email"
                             value={settings.email}
-                            onChange={(e) => handleSettingChange('email', e.target.value)}
+                            onChange={(e) =>
+                              handleSettingChange("email", e.target.value)
+                            }
                             className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           />
                         </div>
@@ -194,7 +206,9 @@ export default function SettingsPage() {
                       </label>
                       <textarea
                         value={settings.bio}
-                        onChange={(e) => handleSettingChange('bio', e.target.value)}
+                        onChange={(e) =>
+                          handleSettingChange("bio", e.target.value)
+                        }
                         rows={3}
                         className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="自己紹介を入力してください..."
@@ -203,7 +217,9 @@ export default function SettingsPage() {
 
                     {/* Password Change */}
                     <div className="border-t pt-8">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">パスワード変更</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                        パスワード変更
+                      </h3>
                       <div className="grid md:grid-cols-2 gap-6">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -212,7 +228,7 @@ export default function SettingsPage() {
                           <div className="relative">
                             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                             <input
-                              type={showPassword ? 'text' : 'password'}
+                              type={showPassword ? "text" : "password"}
                               className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             />
                             <button
@@ -220,7 +236,11 @@ export default function SettingsPage() {
                               onClick={() => setShowPassword(!showPassword)}
                               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                             >
-                              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                              {showPassword ? (
+                                <EyeOff className="w-5 h-5" />
+                              ) : (
+                                <Eye className="w-5 h-5" />
+                              )}
                             </button>
                           </div>
                         </div>
@@ -232,7 +252,7 @@ export default function SettingsPage() {
                           <div className="relative">
                             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                             <input
-                              type={showPassword ? 'text' : 'password'}
+                              type={showPassword ? "text" : "password"}
                               className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             />
                           </div>
@@ -243,11 +263,15 @@ export default function SettingsPage() {
                 )}
 
                 {/* Notifications Tab */}
-                {activeTab === 'notifications' && (
+                {activeTab === "notifications" && (
                   <div className="space-y-8">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">通知設定</h2>
-                      <p className="text-gray-600">学習進捗に関する通知方法を選択してください。</p>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        通知設定
+                      </h2>
+                      <p className="text-gray-600">
+                        学習進捗に関する通知方法を選択してください。
+                      </p>
                     </div>
 
                     <div className="space-y-6">
@@ -255,15 +279,24 @@ export default function SettingsPage() {
                         <div className="flex items-center space-x-3">
                           <Mail className="w-5 h-5 text-gray-600" />
                           <div>
-                            <h3 className="font-medium text-gray-900">メール通知</h3>
-                            <p className="text-sm text-gray-600">メールで更新情報を受信</p>
+                            <h3 className="font-medium text-gray-900">
+                              メール通知
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              メールで更新情報を受信
+                            </p>
                           </div>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={settings.emailNotifications}
-                            onChange={(e) => handleSettingChange('emailNotifications', e.target.checked)}
+                            onChange={(e) =>
+                              handleSettingChange(
+                                "emailNotifications",
+                                e.target.checked
+                              )
+                            }
                             className="sr-only peer"
                           />
                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
@@ -274,15 +307,24 @@ export default function SettingsPage() {
                         <div className="flex items-center space-x-3">
                           <Smartphone className="w-5 h-5 text-gray-600" />
                           <div>
-                            <h3 className="font-medium text-gray-900">プッシュ通知</h3>
-                            <p className="text-sm text-gray-600">デバイスで通知を受信</p>
+                            <h3 className="font-medium text-gray-900">
+                              プッシュ通知
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              デバイスで通知を受信
+                            </p>
                           </div>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={settings.pushNotifications}
-                            onChange={(e) => handleSettingChange('pushNotifications', e.target.checked)}
+                            onChange={(e) =>
+                              handleSettingChange(
+                                "pushNotifications",
+                                e.target.checked
+                              )
+                            }
                             className="sr-only peer"
                           />
                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
@@ -293,15 +335,24 @@ export default function SettingsPage() {
                         <div className="flex items-center space-x-3">
                           <Bell className="w-5 h-5 text-gray-600" />
                           <div>
-                            <h3 className="font-medium text-gray-900">学習リマインダー</h3>
-                            <p className="text-sm text-gray-600">毎日の練習リマインダー</p>
+                            <h3 className="font-medium text-gray-900">
+                              学習リマインダー
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              毎日の練習リマインダー
+                            </p>
                           </div>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={settings.studyReminders}
-                            onChange={(e) => handleSettingChange('studyReminders', e.target.checked)}
+                            onChange={(e) =>
+                              handleSettingChange(
+                                "studyReminders",
+                                e.target.checked
+                              )
+                            }
                             className="sr-only peer"
                           />
                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
@@ -312,11 +363,15 @@ export default function SettingsPage() {
                 )}
 
                 {/* Appearance Tab */}
-                {activeTab === 'appearance' && (
+                {activeTab === "appearance" && (
                   <div className="space-y-8">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">外観設定</h2>
-                      <p className="text-gray-600">EZ-Termsの見た目と操作感をカスタマイズします。</p>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        外観設定
+                      </h2>
+                      <p className="text-gray-600">
+                        EZ-Termsの見た目と操作感をカスタマイズします。
+                      </p>
                     </div>
 
                     <div className="space-y-6">
@@ -326,27 +381,35 @@ export default function SettingsPage() {
                         </label>
                         <div className="grid grid-cols-3 gap-4">
                           <button
-                            onClick={() => handleSettingChange('theme', 'light')}
+                            onClick={() =>
+                              handleSettingChange("theme", "light")
+                            }
                             className={`p-4 border-2 rounded-lg flex flex-col items-center space-y-2 transition-colors ${
-                              settings.theme === 'light' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300'
+                              settings.theme === "light"
+                                ? "border-green-500 bg-green-50"
+                                : "border-gray-200 hover:border-gray-300"
                             }`}
                           >
                             <Sun className="w-6 h-6 text-gray-600" />
                             <span className="text-sm font-medium">ライト</span>
                           </button>
                           <button
-                            onClick={() => handleSettingChange('theme', 'dark')}
+                            onClick={() => handleSettingChange("theme", "dark")}
                             className={`p-4 border-2 rounded-lg flex flex-col items-center space-y-2 transition-colors ${
-                              settings.theme === 'dark' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300'
+                              settings.theme === "dark"
+                                ? "border-green-500 bg-green-50"
+                                : "border-gray-200 hover:border-gray-300"
                             }`}
                           >
                             <Moon className="w-6 h-6 text-gray-600" />
                             <span className="text-sm font-medium">ダーク</span>
                           </button>
                           <button
-                            onClick={() => handleSettingChange('theme', 'auto')}
+                            onClick={() => handleSettingChange("theme", "auto")}
                             className={`p-4 border-2 rounded-lg flex flex-col items-center space-y-2 transition-colors ${
-                              settings.theme === 'auto' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300'
+                              settings.theme === "auto"
+                                ? "border-green-500 bg-green-50"
+                                : "border-gray-200 hover:border-gray-300"
                             }`}
                           >
                             <Monitor className="w-6 h-6 text-gray-600" />
@@ -361,7 +424,9 @@ export default function SettingsPage() {
                         </label>
                         <select
                           value={settings.language}
-                          onChange={(e) => handleSettingChange('language', e.target.value)}
+                          onChange={(e) =>
+                            handleSettingChange("language", e.target.value)
+                          }
                           className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                           <option value="ja">日本語</option>
@@ -377,18 +442,32 @@ export default function SettingsPage() {
                           フォントサイズ
                         </label>
                         <div className="grid grid-cols-3 gap-4">
-                          {['small', 'medium', 'large'].map((size) => (
+                          {["small", "medium", "large"].map((size) => (
                             <button
                               key={size}
-                              onClick={() => handleSettingChange('fontSize', size)}
+                              onClick={() =>
+                                handleSettingChange("fontSize", size)
+                              }
                               className={`p-3 border-2 rounded-lg text-center transition-colors ${
-                                settings.fontSize === size ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300'
+                                settings.fontSize === size
+                                  ? "border-green-500 bg-green-50"
+                                  : "border-gray-200 hover:border-gray-300"
                               }`}
                             >
-                              <span className={`font-medium ${
-                                size === 'small' ? 'text-sm' : size === 'large' ? 'text-lg' : 'text-base'
-                              }`}>
-                                {size === 'small' ? '小' : size === 'medium' ? '中' : '大'}
+                              <span
+                                className={`font-medium ${
+                                  size === "small"
+                                    ? "text-sm"
+                                    : size === "large"
+                                    ? "text-lg"
+                                    : "text-base"
+                                }`}
+                              >
+                                {size === "small"
+                                  ? "小"
+                                  : size === "medium"
+                                  ? "中"
+                                  : "大"}
                               </span>
                             </button>
                           ))}
@@ -399,11 +478,15 @@ export default function SettingsPage() {
                 )}
 
                 {/* Learning Tab */}
-                {activeTab === 'learning' && (
+                {activeTab === "learning" && (
                   <div className="space-y-8">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">学習設定</h2>
-                      <p className="text-gray-600">学習体験と目標をカスタマイズします。</p>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        学習設定
+                      </h2>
+                      <p className="text-gray-600">
+                        学習体験と目標をカスタマイズします。
+                      </p>
                     </div>
 
                     <div className="space-y-6">
@@ -416,7 +499,12 @@ export default function SettingsPage() {
                           min="5"
                           max="50"
                           value={settings.dailyGoal}
-                          onChange={(e) => handleSettingChange('dailyGoal', parseInt(e.target.value))}
+                          onChange={(e) =>
+                            handleSettingChange(
+                              "dailyGoal",
+                              parseInt(e.target.value)
+                            )
+                          }
                           className="w-full"
                         />
                         <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -431,7 +519,12 @@ export default function SettingsPage() {
                         </label>
                         <select
                           value={settings.difficultyPreference}
-                          onChange={(e) => handleSettingChange('difficultyPreference', e.target.value)}
+                          onChange={(e) =>
+                            handleSettingChange(
+                              "difficultyPreference",
+                              e.target.value
+                            )
+                          }
                           className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                           <option value="mixed">混合レベル</option>
@@ -445,15 +538,21 @@ export default function SettingsPage() {
                         <div className="flex items-center space-x-3">
                           <Volume2 className="w-5 h-5 text-gray-600" />
                           <div>
-                            <h3 className="font-medium text-gray-900">自動発音再生</h3>
-                            <p className="text-sm text-gray-600">単語の発音を自動再生</p>
+                            <h3 className="font-medium text-gray-900">
+                              自動発音再生
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              単語の発音を自動再生
+                            </p>
                           </div>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={settings.autoPlay}
-                            onChange={(e) => handleSettingChange('autoPlay', e.target.checked)}
+                            onChange={(e) =>
+                              handleSettingChange("autoPlay", e.target.checked)
+                            }
                             className="sr-only peer"
                           />
                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
@@ -462,17 +561,30 @@ export default function SettingsPage() {
 
                       <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                         <div className="flex items-center space-x-3">
-                          {settings.soundEffects ? <Volume2 className="w-5 h-5 text-gray-600" /> : <VolumeX className="w-5 h-5 text-gray-600" />}
+                          {settings.soundEffects ? (
+                            <Volume2 className="w-5 h-5 text-gray-600" />
+                          ) : (
+                            <VolumeX className="w-5 h-5 text-gray-600" />
+                          )}
                           <div>
-                            <h3 className="font-medium text-gray-900">効果音</h3>
-                            <p className="text-sm text-gray-600">正解/不正解時の音を再生</p>
+                            <h3 className="font-medium text-gray-900">
+                              効果音
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              正解/不正解時の音を再生
+                            </p>
                           </div>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={settings.soundEffects}
-                            onChange={(e) => handleSettingChange('soundEffects', e.target.checked)}
+                            onChange={(e) =>
+                              handleSettingChange(
+                                "soundEffects",
+                                e.target.checked
+                              )
+                            }
                             className="sr-only peer"
                           />
                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
@@ -483,17 +595,25 @@ export default function SettingsPage() {
                 )}
 
                 {/* Data Tab */}
-                {activeTab === 'data' && (
+                {activeTab === "data" && (
                   <div className="space-y-8">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">データ・ストレージ</h2>
-                      <p className="text-gray-600">データ、エクスポート、アカウント削除を管理します。</p>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        データ・ストレージ
+                      </h2>
+                      <p className="text-gray-600">
+                        データ、エクスポート、アカウント削除を管理します。
+                      </p>
                     </div>
 
                     <div className="space-y-6">
                       <div className="p-6 border border-gray-200 rounded-lg">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">データをエクスポート</h3>
-                        <p className="text-gray-600 mb-4">全ての語彙データ、進捗、設定をダウンロードします。</p>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                          データをエクスポート
+                        </h3>
+                        <p className="text-gray-600 mb-4">
+                          全ての語彙データ、進捗、設定をダウンロードします。
+                        </p>
                         <button className="flex items-center space-x-2 px-4 py-2 gradient-primary text-white rounded-lg hover:opacity-90 transition-opacity">
                           <Download className="w-4 h-4" />
                           <span>データをエクスポート</span>
@@ -501,8 +621,12 @@ export default function SettingsPage() {
                       </div>
 
                       <div className="p-6 border border-red-200 rounded-lg bg-red-50">
-                        <h3 className="text-lg font-semibold text-red-900 mb-2">アカウントを削除</h3>
-                        <p className="text-red-700 mb-4">アカウントと関連するすべてのデータを完全に削除します。この操作は元に戻せません。</p>
+                        <h3 className="text-lg font-semibold text-red-900 mb-2">
+                          アカウントを削除
+                        </h3>
+                        <p className="text-red-700 mb-4">
+                          アカウントと関連するすべてのデータを完全に削除します。この操作は元に戻せません。
+                        </p>
                         <button className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
                           <Trash2 className="w-4 h-4" />
                           <span>アカウントを削除</span>

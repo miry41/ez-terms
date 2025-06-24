@@ -1,4 +1,5 @@
 export {
+  Calendar,
   BookOpen,
   Search,
   Filter,
