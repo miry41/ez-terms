@@ -431,27 +431,6 @@ export default function DocumentsPage() {
               </button>
             </div>
           )}
-
-          {/* Upload Area */}
-          <div className="mt-12 elegant-card p-8">
-            <div className="text-center">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 hover:border-green-400 transition-colors">
-                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  新しいドキュメントをアップロード
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  ファイルをここにドラッグ&ドロップするか、クリックして参照
-                </p>
-                <button className="gradient-primary text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                  ファイルを選択
-                </button>
-                <p className="text-xs text-gray-500 mt-4">
-                  PDF、DOCX、TXT、WebURL対応（最大10MBまで）
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
