@@ -29,48 +29,30 @@ import {
   LogOut,
 } from "lucide-react";
 import Header from "@/components/Header";
+import {
+  mockExtractedWords,
+  mockInputMethods,
+  mockExtractionSettings,
+} from "@/data/mockData";
+import {
+  getDifficultyColor,
+  getDifficultyText,
+  getConfidenceColor,
+} from "@/utils/helpers";
+import { ExtractedWord } from "@/types";
 
 export default function ExtractPage() {
   const [activeTab, setActiveTab] = useState("text");
   const [inputText, setInputText] = useState("");
-  const [extractedWords, setExtractedWords] = useState([
-    {
-      id: 1,
-      word: "methodology",
-      pronunciation: "/mɛθəˈdɒlədʒi/",
-      definition: "特定の研究分野や活動で使用される方法のシステム",
-      difficulty: "intermediate",
-      category: "research",
-      confidence: 95,
-      examples: ["研究方法論は論文で明確に概説されていた。"],
-      source: "現在のテキスト入力",
-    },
-    {
-      id: 2,
-      word: "paradigm",
-      pronunciation: "/ˈpærəˌdaɪm/",
-      definition: "何かの典型的な例やパターン；モデル",
-      difficulty: "advanced",
-      category: "academic",
-      confidence: 88,
-      examples: ["これは科学的思考のパラダイムシフトを表している。"],
-      source: "現在のテキスト入力",
-    },
-  ]);
-
-  const [extractionSettings, setExtractionSettings] = useState({
-    difficulty: "all",
-    subject: "auto",
-    minConfidence: 80,
-    includePronounciation: true,
-    includeExamples: true,
-    maxWords: 50,
-  });
+  const [extractedWords, setExtractedWords] = useState(mockExtractedWords);
+  const [extractionSettings, setExtractionSettings] = useState(
+    mockExtractionSettings
+  );
 
   const handleExtractVocabulary = () => {
     if (inputText.trim()) {
       // Simulate vocabulary extraction
-      const newWords = [
+      const newWords: ExtractedWord[] = [
         {
           id: Date.now(),
           word: "hypothesis",
@@ -86,65 +68,6 @@ export default function ExtractPage() {
       setExtractedWords([...newWords, ...extractedWords]);
     }
   };
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "beginner":
-        return "bg-green-100 text-green-800";
-      case "intermediate":
-        return "bg-yellow-100 text-yellow-800";
-      case "advanced":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getDifficultyText = (difficulty: string) => {
-    switch (difficulty) {
-      case "beginner":
-        return "初級";
-      case "intermediate":
-        return "中級";
-      case "advanced":
-        return "上級";
-      default:
-        return "不明";
-    }
-  };
-
-  const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 90) return "text-green-600";
-    if (confidence >= 70) return "text-yellow-600";
-    return "text-red-600";
-  };
-
-  const inputMethods = [
-    {
-      id: "text",
-      label: "テキスト入力",
-      icon: FileText,
-      description: "テキストを直接貼り付けまたは入力",
-    },
-    {
-      id: "upload",
-      label: "ファイルアップロード",
-      icon: Upload,
-      description: "PDF、DOCX、TXTファイルをアップロード",
-    },
-    {
-      id: "url",
-      label: "Web URL",
-      icon: Link2,
-      description: "Web記事から抽出",
-    },
-    {
-      id: "image",
-      label: "画像OCR",
-      icon: Image,
-      description: "画像からテキストを抽出",
-    },
-  ];
 
   const headerAction = [
     <Link
@@ -174,7 +97,7 @@ export default function ExtractPage() {
                   入力方法を選択
                 </h2>
                 <div className="grid md:grid-cols-2 gap-4 mb-6">
-                  {inputMethods.map((method) => {
+                  {mockInputMethods.map((method) => {
                     const IconComponent = method.icon;
                     return (
                       <button
@@ -208,86 +131,79 @@ export default function ExtractPage() {
                   })}
                 </div>
 
-                {/* Input Content */}
-                <div className="space-y-4">
-                  {activeTab === "text" && (
-                    <>
+                {/* Text Input */}
+                {activeTab === "text" && (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        テキストを入力または貼り付け
+                      </label>
                       <textarea
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
-                        placeholder="学術テキストをここに貼り付けてください...（最大10,000文字）"
-                        className="w-full h-64 p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+                        className="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="ここにテキストを入力してください..."
                       />
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">
-                          {inputText.length}/10,000文字
-                        </span>
-                        <button
-                          onClick={handleExtractVocabulary}
-                          disabled={!inputText.trim()}
-                          className="flex items-center space-x-2 gradient-primary text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <Zap className="w-4 h-4" />
-                          <span>単語を抽出</span>
-                        </button>
-                      </div>
-                    </>
-                  )}
+                    </div>
+                    <button
+                      onClick={handleExtractVocabulary}
+                      className="w-full gradient-primary text-white py-3 px-6 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center space-x-2"
+                    >
+                      <Zap className="w-5 h-5" />
+                      <span>語彙を抽出</span>
+                    </button>
+                  </div>
+                )}
 
-                  {activeTab === "upload" && (
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-green-400 transition-colors">
+                {/* File Upload */}
+                {activeTab === "upload" && (
+                  <div className="space-y-4">
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                       <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        ドキュメントをアップロード
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        ファイルをここにドラッグ&ドロップするか、クリックして参照
+                      <p className="text-gray-600 mb-2">
+                        ファイルをドラッグ＆ドロップまたはクリックして選択
                       </p>
-                      <button className="gradient-primary text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                        ファイルを選択
-                      </button>
-                      <p className="text-xs text-gray-500 mt-2">
-                        PDF、DOCX、TXT対応（最大10MB）
-                      </p>
-                    </div>
-                  )}
-
-                  {activeTab === "url" && (
-                    <div className="space-y-4">
-                      <div className="flex space-x-2">
-                        <input
-                          type="url"
-                          placeholder="https://example.com/article"
-                          className="flex-1 p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        />
-                        <button className="gradient-primary text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                          抽出
-                        </button>
-                      </div>
                       <p className="text-sm text-gray-500">
-                        記事やWebページのURLを入力して語彙を抽出します。
+                        PDF、DOCX、TXTファイルをサポート
                       </p>
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {activeTab === "image" && (
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-green-400 transition-colors">
+                {/* URL Input */}
+                {activeTab === "url" && (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Web URL
+                      </label>
+                      <input
+                        type="url"
+                        className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="https://example.com/article"
+                      />
+                    </div>
+                    <button className="w-full gradient-primary text-white py-3 px-6 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center space-x-2">
+                      <Zap className="w-5 h-5" />
+                      <span>URLから抽出</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* Image Upload */}
+                {activeTab === "image" && (
+                  <div className="space-y-4">
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                       <Camera className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        画像をアップロード
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        テキストが含まれた画像をアップロードして語彙を抽出
+                      <p className="text-gray-600 mb-2">
+                        画像をドラッグ＆ドロップまたはクリックして選択
                       </p>
-                      <button className="gradient-primary text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                        画像を選択
-                      </button>
-                      <p className="text-xs text-gray-500 mt-2">
-                        JPG、PNG、PDF対応（最大5MB）
+                      <p className="text-sm text-gray-500">
+                        JPG、PNG、GIFファイルをサポート
                       </p>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Extraction Results */}
@@ -390,7 +306,7 @@ export default function ExtractPage() {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      難易度レベル
+                      難易度
                     </label>
                     <select
                       value={extractionSettings.difficulty}
@@ -400,45 +316,21 @@ export default function ExtractPage() {
                           difficulty: e.target.value,
                         })
                       }
-                      className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
-                      <option value="all">全レベル</option>
+                      <option value="all">すべて</option>
                       <option value="beginner">初級</option>
                       <option value="intermediate">中級</option>
                       <option value="advanced">上級</option>
                     </select>
                   </div>
-
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      分野
-                    </label>
-                    <select
-                      value={extractionSettings.subject}
-                      onChange={(e) =>
-                        setExtractionSettings({
-                          ...extractionSettings,
-                          subject: e.target.value,
-                        })
-                      }
-                      className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    >
-                      <option value="auto">自動検出</option>
-                      <option value="science">科学</option>
-                      <option value="technology">テクノロジー</option>
-                      <option value="medicine">医学</option>
-                      <option value="business">ビジネス</option>
-                      <option value="literature">文学</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      最小信頼度: {extractionSettings.minConfidence}%
+                      最小信頼度
                     </label>
                     <input
                       type="range"
-                      min="50"
+                      min="0"
                       max="100"
                       value={extractionSettings.minConfidence}
                       onChange={(e) =>
@@ -449,60 +341,11 @@ export default function ExtractPage() {
                       }
                       className="w-full"
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      最大単語数: {extractionSettings.maxWords}
-                    </label>
-                    <input
-                      type="range"
-                      min="10"
-                      max="100"
-                      value={extractionSettings.maxWords}
-                      onChange={(e) =>
-                        setExtractionSettings({
-                          ...extractionSettings,
-                          maxWords: parseInt(e.target.value),
-                        })
-                      }
-                      className="w-full"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={extractionSettings.includePronounciation}
-                        onChange={(e) =>
-                          setExtractionSettings({
-                            ...extractionSettings,
-                            includePronounciation: e.target.checked,
-                          })
-                        }
-                        className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">
-                        発音を含める
-                      </span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={extractionSettings.includeExamples}
-                        onChange={(e) =>
-                          setExtractionSettings({
-                            ...extractionSettings,
-                            includeExamples: e.target.checked,
-                          })
-                        }
-                        className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">
-                        例文を含める
-                      </span>
-                    </label>
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      <span>0%</span>
+                      <span>{extractionSettings.minConfidence}%</span>
+                      <span>100%</span>
+                    </div>
                   </div>
                 </div>
               </div>
