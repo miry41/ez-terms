@@ -20,17 +20,26 @@ export default function DashboardPage() {
 
   const headerAction = [
     <Link
+      className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+      key="settings"
+      href="./app/settings"
+    >
+      <Icon.Settings className="w-4 h-4" />
+      <span>設定</span>
+    </Link>,
+    <Link
       href="../"
       key="logout"
-      className="text-gray-600 hover:text-red-600 transition-colors"
+      className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-red-300 transition-colors"
     >
       <Icon.LogOut className="w-5 h-5" />
+      <span>ログアウト</span>
     </Link>,
   ];
 
   const quickActions = [
     {
-      href: "/dashboard/extract",
+      href: "/app/extract",
       icon: Icon.Zap,
       title: "語彙抽出",
       description: "文書をアップロードまたはテキストを貼り付け",
@@ -38,7 +47,7 @@ export default function DashboardPage() {
       hoverColor: "green",
     },
     {
-      href: "/dashboard/learn",
+      href: "/app/learn",
       icon: Icon.BookOpen,
       title: "学習開始",
       description: "フラッシュカードで練習",
@@ -46,7 +55,7 @@ export default function DashboardPage() {
       hoverColor: "blue",
     },
     {
-      href: "/dashboard/vocabulary",
+      href: "/app/vocabulary",
       icon: Icon.BookOpen,
       title: "マイ単語帳",
       description: "単語コレクションを確認",
@@ -54,7 +63,7 @@ export default function DashboardPage() {
       hoverColor: "purple",
     },
     {
-      href: "/dashboard/analytics",
+      href: "/app/analytics",
       icon: Icon.BarChart3,
       title: "分析を見る",
       description: "進捗を追跡",
